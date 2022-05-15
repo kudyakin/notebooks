@@ -3,14 +3,19 @@ package com.kudiukin.notebooks.service;
 import com.kudiukin.notebooks.domain.Notebook;
 import com.kudiukin.notebooks.repository.NotebookRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class NotebookServiceBean implements NotebookService{
 
     private NotebookRepository notebookRepository;
@@ -58,6 +63,38 @@ public class NotebookServiceBean implements NotebookService{
     @Override
     public void deleteAll() {
         notebookRepository.deleteAll();
+    }
+
+    @Override
+    public Collection<Notebook> findNotebookByNameBrand(String nameBrand) {
+        log.info("findNotebookByNameBrand() - start: nameBrand = {}", nameBrand);
+        Collection<Notebook> collection = notebookRepository.findByNameBrand(nameBrand);
+        log.info("findNotebookByNameBrand() - end: collection = {}", collection);
+        return collection;
+    }
+
+    @Override
+    public Collection<Notebook> findNotebookByDisplayDiagonal(int displayDiagonal) {
+        log.info("findNotebookByDisplayDiagonal() - start: displayDiagonal = {}", displayDiagonal);
+        Collection<Notebook> collection = notebookRepository.findByDisplayDiagonal(displayDiagonal);
+        log.info("findNotebookByDisplayDiagonal() - end: collection = {}", collection);
+        return collection;
+    }
+
+    @Override
+    public Collection<Notebook> findNotebookByOs(String os) {
+        log.info("findNotebookByOs() - start: os = {}", os);
+        Collection<Notebook> collection = notebookRepository.findByOs(os);
+        log.info("findNotebookByOs() - end: collection = {}", collection);
+        return collection;
+    }
+
+    @Override
+    public Collection<Notebook> findNotebookByMemorySize(int memorySize) {
+        log.info("findNotebookByMemorySize() - start: memorySize = {}", memorySize);
+        Collection<Notebook> collection = notebookRepository.findByMemorySize(memorySize);
+        log.info("findNotebookByMemorySize() - end: collection = {}", collection);
+        return collection;
     }
 
     private void checkProduceDate(Notebook notebook) {

@@ -17,4 +17,4 @@ spring:
     generate-ddl: true
 # Server configuration
 server:
-  port: 8085 #set your port
+  port: 8086 #set your port

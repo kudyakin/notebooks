@@ -2,6 +2,7 @@ package com.kudiukin.notebooks.service;
 
 import com.kudiukin.notebooks.domain.Notebook;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface NotebookService {
@@ -17,4 +18,12 @@ public interface NotebookService {
     void delete(Integer id);
 
     void deleteAll();
+
+    Collection<Notebook> findNotebookByNameBrand (String nameBrand);
+
+    Collection<Notebook> findNotebookByDisplayDiagonal (int displayDiagonal);
+
+    Collection<Notebook> findNotebookByOs (String os);
+
+    Collection<Notebook> findNotebookByMemorySize (int memorySize);
 }
