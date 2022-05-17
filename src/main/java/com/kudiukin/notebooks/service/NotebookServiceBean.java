@@ -90,6 +90,22 @@ public class NotebookServiceBean implements NotebookService{
     }
 
     @Override
+    public Collection<Notebook> findNotebookByMacOs() {
+        log.info("findNotebookByMacOs() - start");
+        Collection<Notebook> collection = notebookRepository.findByMacOs();
+        log.info("findNotebookByMacOs() - end: collection = {}", collection);
+        return collection;
+    }
+
+    @Override
+    public Collection<Notebook> findNotebookByWinOs() {
+        log.info("findNotebookByWinOs() - start");
+        Collection<Notebook> collection = notebookRepository.findByWinOs();
+        log.info("findNotebookByWinOs() - end: collection = {}", collection);
+        return collection;
+    }
+
+    @Override
     public Collection<Notebook> findNotebookByMemorySize(int memorySize) {
         log.info("findNotebookByMemorySize() - start: memorySize = {}", memorySize);
         Collection<Notebook> collection = notebookRepository.findByMemorySize(memorySize);

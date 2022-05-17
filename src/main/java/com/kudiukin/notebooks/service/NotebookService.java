@@ -23,6 +23,10 @@ public interface NotebookService {
 
     Collection<Notebook> findNotebookByDisplayDiagonal (int displayDiagonal);
 
+    Collection<Notebook> findNotebookByMacOs ();
+
+    Collection<Notebook> findNotebookByWinOs ();
+
     Collection<Notebook> findNotebookByOs (String os);
 
     Collection<Notebook> findNotebookByMemorySize (int memorySize);

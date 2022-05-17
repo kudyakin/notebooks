@@ -71,6 +71,18 @@ public class NotebookController {
         return notebookService.findNotebookByOs(os);
     }
 
+    @GetMapping(value = "/notebooks/mac")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<Notebook> findNotebookByMacOs(){
+        return notebookService.findNotebookByMacOs();
+    }
+
+    @GetMapping(value = "/notebooks/win")
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<Notebook> findNotebookByWinOs(){
+        return notebookService.findNotebookByWinOs();
+    }
+
     @GetMapping(value = "/notebooks", params = {"memorySize"})
     @ResponseStatus(HttpStatus.OK)
     public Collection<Notebook> findNotebookByMemorySize(int memorySize){
