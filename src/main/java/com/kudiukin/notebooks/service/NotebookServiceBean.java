@@ -12,6 +12,7 @@ import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -33,7 +34,12 @@ public class NotebookServiceBean implements NotebookService{
 
     @Override
     public Notebook viewById(Integer id) {
-        return notebookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Not Found id = " + id));
+        Notebook notebook = notebookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Notebook not found with id = " + id));  // add to new method and use it
+        if (notebook.getDeleted() || notebook.getDeleted().equals(null)){                      //see later Equals and ==
+            throw new EntityNotFoundException("Notebook was deleted");
+        }
+        return notebook;
     }
 
     @Override
@@ -57,7 +63,12 @@ public class NotebookServiceBean implements NotebookService{
 
     @Override
     public void delete(Integer id) {
-        notebookRepository.deleteById(id);
+        Notebook notebook = notebookRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Notebook not found with id = " + id));
+        notebook.setDeleted(Boolean.TRUE);
+        notebookRepository.save(notebook);
+
+//        notebookRepository.deleteById(id);
     }
 
     @Override
@@ -67,7 +78,7 @@ public class NotebookServiceBean implements NotebookService{
 
     @Override
     public Collection<Notebook> findNotebookByNameBrand(String nameBrand) {
-        log.info("findNotebookByNameBrand() - start: nameBrand = {}", nameBrand);
+        log.debug("findNotebookByNameBrand() - start: nameBrand = {}", nameBrand);
         Collection<Notebook> collection = notebookRepository.findByNameBrand(nameBrand);
         log.info("findNotebookByNameBrand() - end: collection = {}", collection);
         return collection;

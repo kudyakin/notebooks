@@ -1,7 +1,10 @@
 package com.kudiukin.notebooks.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Table(name = "notebooks")
@@ -19,6 +22,8 @@ public class Notebook {
     private String videocard;
     private String os;
     private LocalDate produceDate;
+    @JsonIgnore
+    private Boolean isDeleted;
 
     public Integer getId() {
         return id;
@@ -98,5 +103,27 @@ public class Notebook {
 
     public void setProduceDate(LocalDate produceDate) {
         this.produceDate = produceDate;
+    }
+
+    @JsonIgnore
+    public Boolean getDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Notebook)) return false;
+        Notebook notebook = (Notebook) o;
+        return getDisplayDiagonal() == notebook.getDisplayDiagonal() && getMemorySize() == notebook.getMemorySize() && getSsdSize() == notebook.getSsdSize() && getId().equals(notebook.getId()) && getNameBrand().equals(notebook.getNameBrand()) && getModel().equals(notebook.getModel()) && getProcessor().equals(notebook.getProcessor()) && getVideocard().equals(notebook.getVideocard()) && getOs().equals(notebook.getOs()) && getProduceDate().equals(notebook.getProduceDate()) && isDeleted.equals(notebook.isDeleted);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getNameBrand(), getModel(), getDisplayDiagonal(), getProcessor(), getMemorySize(), getSsdSize(), getVideocard(), getOs(), getProduceDate(), isDeleted);
     }
 }

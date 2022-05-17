@@ -43,9 +43,9 @@ public class NotebookController {
         return notebookService.viewById(id);
     }
 
-    @DeleteMapping("/notebooks/{id}")
+    @PatchMapping("/notebooks/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeNotebook(@PathVariable Integer id) {
+    public void removeNotebook(@PathVariable Integer id) {  // add message to client "Notebook by ID deleted "
         notebookService.delete(id);
     }
     @DeleteMapping("/notebooks")
