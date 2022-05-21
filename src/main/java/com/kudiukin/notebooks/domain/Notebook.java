@@ -23,7 +23,7 @@ public class Notebook {
     private String os;
     private LocalDate produceDate;
     @JsonIgnore
-    private Boolean isDeleted;
+    private Boolean isDeleted = Boolean.FALSE;
 
     public Integer getId() {
         return id;
@@ -125,5 +125,21 @@ public class Notebook {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getNameBrand(), getModel(), getDisplayDiagonal(), getProcessor(), getMemorySize(), getSsdSize(), getVideocard(), getOs(), getProduceDate(), isDeleted);
+    }
+
+    @Override
+    public String toString() {
+        return "Notebook{" +
+                "id=" + id +
+                ", nameBrand='" + nameBrand + '\'' +
+                ", model='" + model + '\'' +
+                ", displayDiagonal=" + displayDiagonal +
+                ", processor='" + processor + '\'' +
+                ", memorySize=" + memorySize +
+                ", ssdSize=" + ssdSize +
+                ", videocard='" + videocard + '\'' +
+                ", os='" + os + '\'' +
+                ", produceDate=" + produceDate +
+                '}';
     }
 }

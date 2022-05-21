@@ -34,12 +34,22 @@ public class NotebookServiceBean implements NotebookService{
 
     @Override
     public Notebook viewById(Integer id) {
-        Notebook notebook = notebookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Notebook not found with id = " + id));  // add to new method and use it
-        if (notebook.getDeleted() || notebook.getDeleted().equals(null)){                      //see later Equals and ==
+        Notebook notebook = getNotebook(id);
+        checkDeleted(notebook);
+        return notebook;
+    }
+
+    private void checkDeleted(Notebook notebook) {
+        if (notebook.getDeleted() == null || notebook.getDeleted()) {
             throw new EntityNotFoundException("Notebook was deleted");
         }
-        return notebook;
+    }
+
+    private Notebook getNotebook(Integer id) {
+        return notebookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Notebook not found with id = " + id));
+        //        Notebook notebook = notebookRepository.findById(id)
+//                .orElseThrow(() -> new EntityNotFoundException("Notebook not found with id = " + id));
+//        return notebook;
     }
 
     @Override
@@ -63,12 +73,14 @@ public class NotebookServiceBean implements NotebookService{
 
     @Override
     public void delete(Integer id) {
-        Notebook notebook = notebookRepository.findById(id)
-        .orElseThrow(() -> new EntityNotFoundException("Notebook not found with id = " + id));
+//        notebookRepository.deleteById(id);
+
+//        getNotebook(id).setDeleted(Boolean.TRUE);
+//        notebookRepository.save(getNotebook(id));
+
+        Notebook notebook = getNotebook(id);
         notebook.setDeleted(Boolean.TRUE);
         notebookRepository.save(notebook);
-
-//        notebookRepository.deleteById(id);
     }
 
     @Override

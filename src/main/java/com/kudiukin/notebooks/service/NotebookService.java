@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 
-
 public interface NotebookService {
 
     Notebook create (Notebook notebook);

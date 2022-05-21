@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,7 +23,9 @@ public class NotebookController {
     @PostMapping("/notebooks")
     @ResponseStatus(HttpStatus.CREATED)
     public Notebook createNotebook(@RequestBody Notebook notebook) {
+        System.out.println("Notebook saved to database successfully");
         return notebookService.create(notebook);
+
     }
 
     @PutMapping("/notebooks/{id}")
@@ -39,8 +42,13 @@ public class NotebookController {
 
     @GetMapping("/notebooks/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Notebook getNotebook(@PathVariable Integer id) {
-        return notebookService.viewById(id);
+    public String getNotebook(@PathVariable Integer id) {
+//        return notebookService.viewById(id);
+        try {
+            return notebookService.viewById(id).toString();
+        } catch (EntityNotFoundException e) {
+            return e.getLocalizedMessage();
+        }
     }
 
     @PatchMapping("/notebooks/{id}")
@@ -48,11 +56,13 @@ public class NotebookController {
     public void removeNotebook(@PathVariable Integer id) {  // add message to client "Notebook by ID deleted "
         notebookService.delete(id);
     }
+
     @DeleteMapping("/notebooks")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void removeAllNotebooks() {
         notebookService.deleteAll();
     }
+
     @GetMapping(value = "/notebooks", params = {"nameBrand"})
     @ResponseStatus(HttpStatus.OK)
     public Collection<Notebook> findNotebookByNameBrand(String nameBrand){
