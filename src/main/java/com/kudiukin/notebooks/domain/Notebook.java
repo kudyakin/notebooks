@@ -1,6 +1,9 @@
 package com.kudiukin.notebooks.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,6 +11,9 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "notebooks")
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class Notebook {
 
     @Id

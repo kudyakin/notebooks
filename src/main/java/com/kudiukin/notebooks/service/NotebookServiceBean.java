@@ -90,7 +90,7 @@ public class NotebookServiceBean implements NotebookService{
 
     @Override
     public Collection<Notebook> findNotebookByNameBrand(String nameBrand) {
-        log.debug("findNotebookByNameBrand() - start: nameBrand = {}", nameBrand);
+        log.info("findNotebookByNameBrand() - start: nameBrand = {}", nameBrand);
         Collection<Notebook> collection = notebookRepository.findByNameBrand(nameBrand);
         log.info("findNotebookByNameBrand() - end: collection = {}", collection);
         return collection;
