@@ -2,6 +2,8 @@ package com.kudiukin.notebooks.web;
 
 import com.kudiukin.notebooks.domain.Notebook;
 import com.kudiukin.notebooks.service.NotebookService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -21,9 +23,9 @@ public class NotebookController {
     }
 
     @PostMapping("/notebooks")
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(value =HttpStatus.CREATED,reason = "Notebook Created")
     public Notebook createNotebook(@RequestBody Notebook notebook) {
-        System.out.println("Notebook saved to database successfully");
+//        System.out.println("Notebook saved to database successfully");
         return notebookService.create(notebook);
 
     }
@@ -34,21 +36,28 @@ public class NotebookController {
         return notebookService.update(id, notebook);
     }
 
+//    @GetMapping("/notebooks")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<Notebook> getAllNotebooks() {
+//        return notebookService.view();
+//    }
+
     @GetMapping("/notebooks")
     @ResponseStatus(HttpStatus.OK)
-    public List<Notebook> getAllNotebooks() {
-        return notebookService.view();
+    public Collection<Notebook>findAllByDeletedIsFalse(){
+        return notebookService.findAllByDeletedIsFalse();
     }
 
     @GetMapping("/notebooks/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String getNotebook(@PathVariable Integer id) {
+    public Notebook getNotebook(@PathVariable Integer id) {
 //        return notebookService.viewById(id);
-        try {
-            return notebookService.viewById(id).toString();
-        } catch (EntityNotFoundException e) {
-            return e.getLocalizedMessage();
-        }
+//        try {
+//            return notebookService.viewById(id).toString();
+//        } catch (EntityNotFoundException e) {
+//            return e.getLocalizedMessage();
+        Notebook notebook=notebookService.viewById(id);
+        return notebook;
     }
 
     @PatchMapping("/notebooks/{id}")

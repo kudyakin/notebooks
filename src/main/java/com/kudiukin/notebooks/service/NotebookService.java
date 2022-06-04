@@ -1,7 +1,6 @@
 package com.kudiukin.notebooks.service;
 
 import com.kudiukin.notebooks.domain.Notebook;
-import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
@@ -31,4 +30,6 @@ public interface NotebookService {
     Collection<Notebook> findNotebookByOs (String os);
 
     Collection<Notebook> findNotebookByMemorySize (int memorySize);
+
+    Collection<Notebook>findAllByDeletedIsFalse();
 }

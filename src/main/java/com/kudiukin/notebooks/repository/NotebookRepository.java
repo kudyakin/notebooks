@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface NotebookRepository extends JpaRepository<Notebook, Integer> {
+
     List<Notebook> findByNameBrand(String nameBrand);
 
     List<Notebook> findByDisplayDiagonal(int displayDiagonal);
@@ -22,4 +23,7 @@ public interface NotebookRepository extends JpaRepository<Notebook, Integer> {
     List<Notebook>findByWinOs();
 
     List<Notebook> findByMemorySize(int memorySize);
+
+    @Query("select n from Notebook n where n.isDeleted=false")
+    List<Notebook>findAllByDeletedIsFalse();
 }

@@ -2,6 +2,8 @@ package com.kudiukin.notebooks.service;
 
 import com.kudiukin.notebooks.domain.Notebook;
 import com.kudiukin.notebooks.repository.NotebookRepository;
+import com.kudiukin.notebooks.util.ResourceNotExistException;
+import com.kudiukin.notebooks.util.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,7 @@ public class NotebookServiceBean implements NotebookService{
 
     @Override
     public Notebook create(Notebook notebook) {
-        checkProduceDate(notebook);
+//        checkProduceDate(notebook);
         return notebookRepository.save(notebook);
     }
 
@@ -34,19 +36,23 @@ public class NotebookServiceBean implements NotebookService{
 
     @Override
     public Notebook viewById(Integer id) {
+        log.info("viewById() - start: id = {}", id);
         Notebook notebook = getNotebook(id);
+        log.debug("viewById()->checkDeleted() - start: id = {}", id);
         checkDeleted(notebook);
-        return notebook;
+        return getNotebook(id);
     }
 
     private void checkDeleted(Notebook notebook) {
+        log.info("checkDeleted() - start: id = {}", notebook.getId());
         if (notebook.getDeleted() == null || notebook.getDeleted()) {
             throw new EntityNotFoundException("Notebook was deleted");
         }
     }
 
     private Notebook getNotebook(Integer id) {
-        return notebookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Notebook not found with id = " + id));
+        return notebookRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+//                orElseThrow(() -> new EntityNotFoundException("Notebook not found with id = " + id));
         //        Notebook notebook = notebookRepository.findById(id)
 //                .orElseThrow(() -> new EntityNotFoundException("Notebook not found with id = " + id));
 //        return notebook;
@@ -77,8 +83,9 @@ public class NotebookServiceBean implements NotebookService{
 
 //        getNotebook(id).setDeleted(Boolean.TRUE);
 //        notebookRepository.save(getNotebook(id));
-
-        Notebook notebook = getNotebook(id);
+        Notebook notebook = notebookRepository.findById(id)
+                .orElseThrow(ResourceNotExistException::new);
+        checkDeleted(notebook);
         notebook.setDeleted(Boolean.TRUE);
         notebookRepository.save(notebook);
     }
@@ -140,5 +147,14 @@ public class NotebookServiceBean implements NotebookService{
         if (notebook.getProduceDate().isBefore(LocalDate.of(2009, 5, 13))) {
             throw new RuntimeException("Notebook is very-very old (more that 13 years), we can't add this hardware to database!");
         }
+    }
+
+    @Override
+    public Collection<Notebook> findAllByDeletedIsFalse() {
+        log.info("findAllByDeletedIsFalse() - start");
+        Collection<Notebook> collection = notebookRepository.findAllByDeletedIsFalse();
+        log.info("findAllByDeletedIsFalse() - end: collection = {}", collection);
+        return collection;
+
     }
 }

@@ -26,9 +26,13 @@ public class NotebookRepositoryTests {
     @Rollback(value = false)
     public void saveNotebookTest() {
 
-        Notebook notebook = Notebook.builder().nameBrand("Lenovo").model("t100").displayDiagonal(15).os("Win10").build();
+        Notebook notebook = Notebook.builder().nameBrand("Lenovo").model("t100").memorySize(8).displayDiagonal(15).os("Win10").isDeleted(Boolean.FALSE).build();
 
         notebookRepository.save(notebook);
+
+        Notebook notebook2 = Notebook.builder().nameBrand("MacBookPro").memorySize(8).displayDiagonal(13).os("MacOS").isDeleted(Boolean.FALSE).build();
+
+        notebookRepository.save(notebook2);
 
         Assertions.assertThat(notebook.getId()).isGreaterThan(0);
     }
@@ -55,6 +59,66 @@ public class NotebookRepositoryTests {
 
     @Test
     @Order(4)
+    public void findByNameBrandTest() {
+
+        List<Notebook> notebooksList = notebookRepository.findByNameBrand("Lenovo");
+
+        Assertions.assertThat(notebooksList.size()).isGreaterThan(0);
+
+    }
+
+    @Test
+    @Order(5)
+    public void findByWinOsTest() {
+
+        List<Notebook> notebooksList = notebookRepository.findByWinOs();
+
+        Assertions.assertThat(notebooksList.size()).isGreaterThan(0);
+
+    }
+
+    @Test
+    @Order(6)
+    public void findByDisplayDiagonalTest() {
+
+        List<Notebook> notebooksList = notebookRepository.findByDisplayDiagonal(15);
+
+        Assertions.assertThat(notebooksList.size()).isGreaterThan(0);
+
+    }
+
+    @Test
+    @Order(7)
+    public void findByMemorySizeTest() {
+
+        List<Notebook> notebooksList = notebookRepository.findByMemorySize(8);
+
+        Assertions.assertThat(notebooksList.size()).isGreaterThan(0);
+
+    }
+
+    @Test
+    @Order(8)
+    public void findByMacOsTest() {
+
+        List<Notebook> notebooksList = notebookRepository.findByMacOs();
+
+        Assertions.assertThat(notebooksList.size()).isGreaterThan(0);
+
+    }
+
+    @Test
+    @Order(9)
+    public void findByOsTest() {
+
+        List<Notebook> notebooksList = notebookRepository.findByOs("MacOS");
+
+        Assertions.assertThat(notebooksList.size()).isGreaterThan(0);
+
+    }
+
+    @Test
+    @Order(10)
     @Rollback(value = false)
     public void updateNotebookTest() {
 
@@ -67,23 +131,23 @@ public class NotebookRepositoryTests {
 
     }
 
-//    @Test
-//    @Order(5)
-//    @Rollback(value = false)
-//    public void deleteNotebookTest() {
-//
-//        Notebook notebook = notebookRepository.findById(1).get();
-//
-//        notebookRepository.delete(notebook);
-//
-//        Notebook notebook1 = null;
-//
-//        Optional<Notebook> optionalAuthor = Optional.ofNullable(notebookRepository.findByNameBrand("Acer"));
-//
-//        if (optionalAuthor.isPresent()) {
-//            notebook1 = optionalAuthor.get();
-//        }
-//
-//        Assertions.assertThat(notebook1).isNull();
-//    }
+    @Test
+    @Order(11)
+    @Rollback(value = false)
+    public void deleteNotebookTest() {
+
+        Notebook notebook = notebookRepository.findById(1).get();
+
+        notebookRepository.delete(notebook);
+
+        List<Notebook> notebook3 = null;
+
+        Optional<List<Notebook>> optionalAuthor = Optional.ofNullable(notebookRepository.findByNameBrand("Acer"));
+
+        if (optionalAuthor.isPresent()) {
+            notebook3 = optionalAuthor.get();
+        }
+
+        Assertions.assertThat(notebook3).isEmpty();
+    }
 }
