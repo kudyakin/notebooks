@@ -1,33 +1,34 @@
 package com.kudiukin.notebooks.web;
 
 import com.kudiukin.notebooks.domain.Notebook;
+import com.kudiukin.notebooks.dto.NotebookDto;
 import com.kudiukin.notebooks.service.NotebookService;
+import com.kudiukin.notebooks.util.config.NotebookConverter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.util.Collection;
-import java.util.List;
 
 @RestController
+@AllArgsConstructor
+@Slf4j
 @RequestMapping(value = "/api", produces = MediaType.APPLICATION_JSON_VALUE)
 public class NotebookController {
 
     private final NotebookService notebookService;
 
-    public NotebookController(NotebookService notebookService) {
-        this.notebookService = notebookService;
-    }
+    private final NotebookConverter notebookConverter;
 
     @PostMapping("/notebooks")
     @ResponseStatus(value =HttpStatus.CREATED,reason = "Notebook Created")
-    public Notebook createNotebook(@RequestBody Notebook notebook) {
-//        System.out.println("Notebook saved to database successfully");
-        return notebookService.create(notebook);
-
+    public NotebookDto createNotebook(@RequestBody @Valid NotebookDto requestForSave) {
+        var notebook = notebookConverter.getMapperFacade().map(requestForSave, Notebook.class);
+        var dto = notebookConverter.toDto(notebookService.create(notebook));
+        return dto;
     }
 
     @PutMapping("/notebooks/{id}")

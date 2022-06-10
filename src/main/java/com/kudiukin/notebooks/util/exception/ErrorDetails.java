@@ -1,4 +1,4 @@
-package com.kudiukin.notebooks.util;
+package com.kudiukin.notebooks.util.exception;
 
 import java.util.Date;
 

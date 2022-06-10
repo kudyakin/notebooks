@@ -2,19 +2,16 @@ package com.kudiukin.notebooks.service;
 
 import com.kudiukin.notebooks.domain.Notebook;
 import com.kudiukin.notebooks.repository.NotebookRepository;
-import com.kudiukin.notebooks.util.ResourceNotExistException;
-import com.kudiukin.notebooks.util.ResourceNotFoundException;
+import com.kudiukin.notebooks.util.exception.ResourceNotExistException;
+import com.kudiukin.notebooks.util.exception.ResourceNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor

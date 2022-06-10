@@ -4,7 +4,7 @@ package com.kudiukin.notebooks;
 import com.kudiukin.notebooks.domain.Notebook;
 import com.kudiukin.notebooks.repository.NotebookRepository;
 import com.kudiukin.notebooks.service.NotebookServiceBean;
-import com.kudiukin.notebooks.util.ResourceNotFoundException;
+import com.kudiukin.notebooks.util.exception.ResourceNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
@@ -12,7 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
