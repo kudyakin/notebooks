@@ -3,7 +3,7 @@ package com.kudiukin.notebooks.web;
 import com.kudiukin.notebooks.domain.Notebook;
 import com.kudiukin.notebooks.dto.NotebookDto;
 import com.kudiukin.notebooks.service.NotebookService;
-import com.kudiukin.notebooks.util.config.NotebookConverter;
+import com.kudiukin.notebooks.util.config.NotebookMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,14 +21,11 @@ public class NotebookController {
 
     private final NotebookService notebookService;
 
-    private final NotebookConverter notebookConverter;
-
     @PostMapping("/notebooks")
     @ResponseStatus(value =HttpStatus.CREATED,reason = "Notebook Created")
-    public NotebookDto createNotebook(@RequestBody @Valid NotebookDto requestForSave) {
-        var notebook = notebookConverter.getMapperFacade().map(requestForSave, Notebook.class);
-        var dto = notebookConverter.toDto(notebookService.create(notebook));
-        return dto;
+    public NotebookDto createNotebook(@RequestBody @Valid NotebookDto notebookForSave) {
+        Notebook notebook = NotebookMapper.INSTANCE.notebookDtoToNotebook(notebookForSave);;
+        return NotebookMapper.INSTANCE.notebookToNotebookDto(notebook);
     }
 
     @PutMapping("/notebooks/{id}")
