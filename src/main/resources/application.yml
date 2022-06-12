@@ -23,6 +23,12 @@ spring:
 # Server configuration
 server:
   port: 8086 #set your port
+  # Swagger configuration
+  springdoc:
+    swagger-ui:
+      path: /swagger-ui.html # swagger-ui custom path
+    api-docs:
+      path: /v3/api-docs.yaml
 # Logger configuration
 #logging:
 #    pattern:

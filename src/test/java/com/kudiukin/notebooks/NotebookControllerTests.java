@@ -88,6 +88,8 @@ public class NotebookControllerTests {
     }
 
 
+
+    @Ignore
     @Test
     public void getAllNotebook_success() throws Exception {
 
