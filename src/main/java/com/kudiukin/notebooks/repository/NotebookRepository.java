@@ -16,10 +16,10 @@ public interface NotebookRepository extends JpaRepository<Notebook, Integer> {
 
     List<Notebook> findByOs(String os);
 
-    @Query("select n from Notebook n where n.os = 'MacOS'")
+    @Query("select n from Notebook n where n.os = 'MacOS' and n.isDeleted=false")
     List<Notebook>findByMacOs();
 
-    @Query("select n from Notebook n where n.os = 'Win10' or n.os = 'Win7'")
+    @Query("select n from Notebook n where (n.os = 'Win10' and n.isDeleted=false) or (n.os = 'Win7' and n.isDeleted=false)")
     List<Notebook>findByWinOs();
 
     List<Notebook> findByMemorySize(int memorySize);

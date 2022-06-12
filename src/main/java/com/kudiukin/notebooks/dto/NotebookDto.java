@@ -9,6 +9,7 @@ import java.time.LocalDate;
 
 public class NotebookDto {
 
+    @JsonIgnore
     public Integer id;
 
     @NotNull
