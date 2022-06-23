@@ -52,4 +52,8 @@ public class NotebookDto {
 
     @JsonIgnore
     public Boolean isDeleted = Boolean.FALSE;
+
+    @JsonIgnore
+    @Schema
+    public BuyerDto mainBuyer;
 }

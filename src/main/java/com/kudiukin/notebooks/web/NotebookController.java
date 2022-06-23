@@ -1,13 +1,11 @@
 package com.kudiukin.notebooks.web;
 
 import com.kudiukin.notebooks.domain.Notebook;
+import com.kudiukin.notebooks.dto.BuyerDto;
 import com.kudiukin.notebooks.dto.NotebookDto;
 import com.kudiukin.notebooks.service.NotebookService;
+import com.kudiukin.notebooks.util.config.BuyerConverter;
 import com.kudiukin.notebooks.util.config.NotebookConverter;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -26,6 +24,8 @@ public class NotebookController implements NotebookSwagger{
     private final NotebookService notebookService;
 
     private final NotebookConverter notebookConverter;
+
+    private final BuyerConverter buyerConverter;
 
     @PostMapping("/notebooks")
     @ResponseStatus(value =HttpStatus.CREATED,reason = "Notebook Created")
@@ -113,5 +113,27 @@ public class NotebookController implements NotebookSwagger{
     @ResponseStatus(HttpStatus.OK)
     public Collection<Notebook> findNotebookByMemorySize(int memorySize){
         return notebookService.findNotebookByMemorySize(memorySize);
+    }
+
+    @PutMapping(value = "/notebooks/{id}/buyer")
+    @Override
+    public NotebookDto addMainBuyer(@PathVariable Integer id, @RequestBody BuyerDto mainBuyer) {
+        log.debug("addMainBuyer() Controller - start: id = {}, buyer = {}", id, mainBuyer);
+        var buyer = buyerConverter.fromDto(mainBuyer);
+        var notebook = notebookService.addMainBuyer(id, buyer);
+        var dto = notebookConverter.toDto(notebook);
+        log.debug("addMainBuyer() Controller - end: id = {}, notebook = {}", id, notebook);
+        return dto;
+    }
+
+    @GetMapping(value = "/notebooks/buyer/{id}")
+    @Override
+    public BuyerDto getBuyerByNotebookId(@PathVariable Integer id) {
+        log.debug("getBuyerByNotebookId() Controller - start: id of notebook = {}", id);
+        var buyer = notebookService.getBuyerByNotebookId(id);
+        log.debug("getBuyerByNotebookId() Controller - got buyer = {}", buyer);
+        var dto = buyerConverter.toDto(buyer);
+        log.debug("getBuyerByNotebookId() Controller - end : dto = {}", dto);
+        return dto;
     }
 }

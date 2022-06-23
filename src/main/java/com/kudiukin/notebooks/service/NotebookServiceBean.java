@@ -1,6 +1,8 @@
 package com.kudiukin.notebooks.service;
 
+import com.kudiukin.notebooks.domain.Buyer;
 import com.kudiukin.notebooks.domain.Notebook;
+import com.kudiukin.notebooks.repository.BuyerRepository;
 import com.kudiukin.notebooks.repository.NotebookRepository;
 import com.kudiukin.notebooks.util.exception.ResourceNotExistException;
 import com.kudiukin.notebooks.util.exception.ResourceNotFoundException;
@@ -18,7 +20,9 @@ import java.util.List;
 @Slf4j
 public class NotebookServiceBean implements NotebookService{
 
-    private NotebookRepository notebookRepository;
+    private final NotebookRepository notebookRepository;
+
+    private final BuyerRepository buyerRepository;
 
     @Override
     public Notebook create(Notebook notebook) {
@@ -152,6 +156,22 @@ public class NotebookServiceBean implements NotebookService{
         Collection<Notebook> collection = notebookRepository.findAllByDeletedIsFalse();
         log.info("findAllByDeletedIsFalse() - end: collection = {}", collection);
         return collection;
+    }
 
+    @Override
+    public Buyer getBuyerByNotebookId(Integer id) {
+        log.info("getBuyerByNotebookId() - start : id = {}", id);
+        var buyer = buyerRepository.getBuyerByIdOfNotebook(id);
+        log.info("getBuyerByNotebookId() - end : pilot = {}", buyer);
+        return buyer;
+    }
+
+    @Override
+    public Notebook addMainBuyer(Integer id, Buyer buyer) {
+        return notebookRepository.findById(id)
+                .map(entity -> {
+                    entity.setMainBuyer(buyer);
+                    return notebookRepository.save(entity);
+                }).orElseThrow(ResourceNotFoundException::new);
     }
 }

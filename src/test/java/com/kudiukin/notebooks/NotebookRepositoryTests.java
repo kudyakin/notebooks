@@ -3,6 +3,7 @@ package com.kudiukin.notebooks;
 import com.kudiukin.notebooks.domain.Notebook;
 import com.kudiukin.notebooks.repository.NotebookRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.Ignore;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -87,6 +88,7 @@ public class NotebookRepositoryTests {
 
     }
 
+    @Ignore
     @Test
     @Order(7)
     public void findByMemorySizeTest() {

@@ -1,6 +1,7 @@
 package com.kudiukin.notebooks.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,11 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 public class Notebook {
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @Schema(hidden = true)
+    @JoinColumn(name = "buyer_id", referencedColumnName = "id")
+    private Buyer mainBuyer;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -120,22 +126,31 @@ public class Notebook {
         isDeleted = deleted;
     }
 
+    public Buyer getMainBuyer() {
+        return mainBuyer;
+    }
+
+    public void setMainBuyer(Buyer mainBuyer) {
+        this.mainBuyer = mainBuyer;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Notebook)) return false;
         Notebook notebook = (Notebook) o;
-        return getDisplayDiagonal() == notebook.getDisplayDiagonal() && getMemorySize() == notebook.getMemorySize() && getSsdSize() == notebook.getSsdSize() && getId().equals(notebook.getId()) && getNameBrand().equals(notebook.getNameBrand()) && getModel().equals(notebook.getModel()) && getProcessor().equals(notebook.getProcessor()) && getVideocard().equals(notebook.getVideocard()) && getOs().equals(notebook.getOs()) && getProduceDate().equals(notebook.getProduceDate()) && isDeleted.equals(notebook.isDeleted);
+        return getDisplayDiagonal() == notebook.getDisplayDiagonal() && getMemorySize() == notebook.getMemorySize() && getSsdSize() == notebook.getSsdSize() && getId().equals(notebook.getId()) && getNameBrand().equals(notebook.getNameBrand()) && getModel().equals(notebook.getModel()) && getProcessor().equals(notebook.getProcessor()) && getVideocard().equals(notebook.getVideocard()) && getOs().equals(notebook.getOs()) && getProduceDate().equals(notebook.getProduceDate()) && isDeleted.equals(notebook.isDeleted) && getMainBuyer().equals(notebook.getMainBuyer());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getNameBrand(), getModel(), getDisplayDiagonal(), getProcessor(), getMemorySize(), getSsdSize(), getVideocard(), getOs(), getProduceDate(), isDeleted);
+        return Objects.hash(getId(), getNameBrand(), getModel(), getDisplayDiagonal(), getProcessor(), getMemorySize(), getSsdSize(), getVideocard(), getOs(), getProduceDate(), isDeleted, getMainBuyer());
     }
 
     @Override
     public String toString() {
         return "Notebook{" +
+                "mainBuyer=" + mainBuyer +
                 "id=" + id +
                 ", nameBrand='" + nameBrand + '\'' +
                 ", model='" + model + '\'' +
@@ -149,3 +164,4 @@ public class Notebook {
                 '}';
     }
 }
+

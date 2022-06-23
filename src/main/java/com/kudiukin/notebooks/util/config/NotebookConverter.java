@@ -21,11 +21,6 @@ public class NotebookConverter {
         return mapperFacade.map(entity, NotebookDto.class);
     }
 
-//    public NotebooReadDto toReadDto(Notebook entity) {
-//        return mapperFacade.map(entity, NotebookReadDto.class);
-//    }
-
-
     public Notebook fromDto(NotebookDto dto) {
         return mapperFacade.map(dto, Notebook.class);
     }

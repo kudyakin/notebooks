@@ -1,5 +1,6 @@
 package com.kudiukin.notebooks.service;
 
+import com.kudiukin.notebooks.domain.Buyer;
 import com.kudiukin.notebooks.domain.Notebook;
 
 import java.util.Collection;
@@ -32,4 +33,8 @@ public interface NotebookService {
     Collection<Notebook> findNotebookByMemorySize (int memorySize);
 
     Collection<Notebook>findAllByDeletedIsFalse();
+
+    Buyer getBuyerByNotebookId(Integer id);
+
+    Notebook addMainBuyer(Integer id, Buyer buyer);
 }
