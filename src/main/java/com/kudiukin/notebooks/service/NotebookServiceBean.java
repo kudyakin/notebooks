@@ -161,7 +161,7 @@ public class NotebookServiceBean implements NotebookService{
     @Override
     public Buyer getBuyerByNotebookId(Integer id) {
         log.info("getBuyerByNotebookId() - start : id = {}", id);
-        var buyer = buyerRepository.getBuyerByIdOfNotebook(id);
+        var buyer = buyerRepository.getBuyerByNotebook_Id(id);
         log.info("getBuyerByNotebookId() - end : pilot = {}", buyer);
         return buyer;
     }

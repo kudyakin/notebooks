@@ -21,7 +21,7 @@ public class BuyerConverter {
         return mapperFacade.map(entity, BuyerDto.class);
     }
 
-    public Buyer fromDto(BuyerDto dto) {
-        return mapperFacade.map(dto, Buyer.class);
+    public Buyer fromDto(BuyerDto entity) {
+        return mapperFacade.map(entity, Buyer.class);
     }
 }

@@ -11,13 +11,13 @@ public class BuyerDto {
     @Schema(description = "name of buyer", example = "Petro")
     @Size(min = 2, max = 32, message = "Name of buyer must be between 2 and 32 characters")
     @NotNull (message = "Field must not be null")
-    private String name;
+    public String name;
 
     @Schema(description = "phone number of buyer", maxLength = 32)
     @NotNull (message = "Field must not be null")
-    private Integer phone;
+    public Integer phone;
 
     @Schema(description = "email of buyer", maxLength =32)
     @NotNull (message = "Field must not be null")
-    private String email;
+    public String email;
 }

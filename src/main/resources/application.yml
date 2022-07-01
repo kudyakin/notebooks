@@ -30,9 +30,9 @@ server:
     api-docs:
       path: /v3/api-docs.yaml
 # Logger configuration
-#logging:
-#    pattern:
-#      console: "%d %-5level %logger : %msg%n"
-#    level:
-#      org.springframework: info
-#      org.hibernate: info
+logging:
+    pattern:
+      console: "%d %-5level %logger : %msg%n"
+    level:
+      org.springframework: info
+      org.hibernate: debug

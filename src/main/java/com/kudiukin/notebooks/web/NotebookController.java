@@ -117,6 +117,7 @@ public class NotebookController implements NotebookSwagger{
 
     @PutMapping(value = "/notebooks/{id}/buyer")
     @Override
+    @ResponseStatus(HttpStatus.OK)
     public NotebookDto addMainBuyer(@PathVariable Integer id, @RequestBody BuyerDto mainBuyer) {
         log.debug("addMainBuyer() Controller - start: id = {}, buyer = {}", id, mainBuyer);
         var buyer = buyerConverter.fromDto(mainBuyer);
@@ -126,8 +127,9 @@ public class NotebookController implements NotebookSwagger{
         return dto;
     }
 
-    @GetMapping(value = "/notebooks/buyer/{id}")
+    @GetMapping(value = "/buyers/{id}")
     @Override
+    @ResponseStatus(HttpStatus.OK)
     public BuyerDto getBuyerByNotebookId(@PathVariable Integer id) {
         log.debug("getBuyerByNotebookId() Controller - start: id of notebook = {}", id);
         var buyer = notebookService.getBuyerByNotebookId(id);

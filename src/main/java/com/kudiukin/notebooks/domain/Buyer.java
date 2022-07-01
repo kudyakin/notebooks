@@ -1,5 +1,6 @@
 package com.kudiukin.notebooks.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +28,7 @@ public class Buyer {
     @Schema(description = "email of buyer", maxLength =32)
     private String email;
 
+    @JsonIgnore
     @Schema(hidden = true)
     @OneToOne(mappedBy = "mainBuyer")
     private Notebook notebook;

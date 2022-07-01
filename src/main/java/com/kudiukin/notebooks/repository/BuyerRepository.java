@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BuyerRepository extends JpaRepository<Buyer, Integer> {
 
-    @Query("SELECT b from Buyer b inner join Notebook not on b.id = not.mainBuyer.id")
-    Buyer getBuyerByIdOfNotebook(Integer id);
+    @Query("SELECT b from Buyer b inner join Notebook no on b.id = no.mainBuyer.id")
+    Buyer getBuyerByNotebook_Id (Integer id);
 
 }
